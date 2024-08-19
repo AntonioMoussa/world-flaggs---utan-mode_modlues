@@ -1,0 +1,216 @@
+/* Grundläggande stil för body */
+body {
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #202C36;
+  color: #F2F2F2;
+}
+
+body.light-mode {
+  background-color: #F2F2F2;
+  color: #202C36;
+}
+
+/* Stil för navbar */
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Högre z-index för navbar */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #FFFFFF;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar.dark-mode {
+  background-color: #2B3844;
+  color: #F2F2F2;
+}
+
+/* Stil för länkar i navbar */
+.navbar a {
+  color: inherit;
+  text-decoration: none;
+  margin: 0px 10px 0px 0px;
+}
+
+.theme-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  background-color: transparent;
+  border-radius: 50%;
+}
+
+/* Stil för sökfältet och filtermenyn */
+.search-filter-container {
+  position: relative; /* Relative position för container */
+  margin-top: 80px; /* Justera för att ge plats under navbar */
+  z-index: 1010; /* Högre z-index för att ligga ovanpå navbaren */
+  padding: 0 20px; /* Padding för att ge plats vid sidor */
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  outline: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+  width: calc(100% - 120px); /* Anpassa bredd för att passa med dropdown */
+  margin-right: 10px; /* Utrymme mellan sökfält och dropdown */
+}
+
+.search-bar.dark-mode {
+  background-color: #2B3844;
+  color: #F2F2F2;
+  border: 1px solid #F2F2F2;
+}
+
+.search-bar.light-mode {
+  background-color: #FFFFFF;
+  color: #202C36;
+  border: 1px solid #202C36;
+}
+
+.filter-menu {
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 120px; /* Ge dropdown-meny en fast bredd */
+  background-color: #FFFFFF; /* Standard bakgrundsfärg */
+  border: 1px solid #202C36; /* Standard kantfärg */
+}
+
+.filter-menu.dark-mode {
+  background-color: #2B3844;
+  color: #F2F2F2;
+  border: 1px solid #F2F2F2;
+}
+
+.filter-menu.light-mode {
+  background-color: #FFFFFF;
+  color: #202C36;
+  border: 1px solid #202C36;
+}
+
+/* Stil för country-card */
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 40px;
+}
+
+.country-card {
+  border-radius: 10px;
+  padding: 20px;
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.country-card a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.country-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 15px;
+}
+
+.country-card.dark-mode {
+  background-color: #2B3844;
+  color: #F2F2F2;
+}
+
+.country-card.light-mode {
+  background-color: #FFFFFF;
+  color: #202C36;
+}
+
+.country-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.country-card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.country-card p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* Stil för theme-toggle knapp */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* Responsiv design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-bar,
+  .filter-menu {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .countries-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 375px) {
+  .country-card {
+    padding: 15px;
+  }
+
+  .country-card h2 {
+    font-size: 16px;
+  }
+
+  .country-card p {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .app {
+    padding: 40px;
+  }
+
+  .countries-grid {
+    gap: 50px;
+  }
+}
