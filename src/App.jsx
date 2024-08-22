@@ -8,7 +8,7 @@ import './index.css';
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div className="container">  {/* Ny container för att hålla allt centrerat */}
         <Navbar />
         <div className="content-wrapper">
           <Routes>

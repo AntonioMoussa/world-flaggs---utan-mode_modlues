@@ -1,4 +1,4 @@
-/* Grundläggande stil för body */
+/* stil för body */
 body {
   font-family: 'Open Sans', sans-serif;
   margin: 0;
@@ -16,17 +16,21 @@ body.light-mode {
   color: #202C36;
 }
 
+/* Stil för container */
+.container {
+  max-width: 1200px; /* Justera maxbredden efter dina behov */
+  margin: 0 auto;    /* Centrerar container */
+  padding: 20px;     /* Lägger till padding */
+}
+
 /* Stil för navbar */
 .navbar {
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000; /* Högre z-index för navbar */
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0; /* Tar bort den tidigare padding och justerar för container */
   background-color: #FFFFFF;
   transition: background-color 0.3s ease, color 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -44,6 +48,7 @@ body.light-mode {
   margin: 0px 10px 0px 0px;
 }
 
+/* bild på solen */
 .theme-icon {
   width: 24px;
   height: 24px;
@@ -52,25 +57,47 @@ body.light-mode {
   border-radius: 50%;
 }
 
-/* Stil för sökfältet och filtermenyn */
+/* Stil för light/darkmode knapp */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  margin-right: 20px;
+}
+
+/* Stil för sökfältet */
 .search-filter-container {
-  position: relative; /* Relative position för container */
-  margin-top: 80px; /* Justera för att ge plats under navbar */
-  z-index: 1010; /* Högre z-index för att ligga ovanpå navbaren */
-  padding: 0 20px; /* Padding för att ge plats vid sidor */
+  display: flex; 
+  align-items: center;
+  gap: 500px;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  z-index: 1010;
 }
 
 .search-bar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 15px 20px;
   border-radius: 5px;
   font-size: 14px;
   outline: none;
   transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-  width: calc(100% - 120px); /* Anpassa bredd för att passa med dropdown */
-  margin-right: 10px; /* Utrymme mellan sökfält och dropdown */
+  background-color: #2B3844;
+  color: #F2F2F2;
+  border: 1px solid #F2F2F2;
+  width: 300px; 
+  margin-right: 20px;
+}
+
+ /* Gör placeholder texten ljusare */
+.search-bar::placeholder {
+  color: #F2F2F2;
 }
 
 .search-bar.dark-mode {
@@ -79,32 +106,25 @@ body.light-mode {
   border: 1px solid #F2F2F2;
 }
 
-.search-bar.light-mode {
-  background-color: #FFFFFF;
-  color: #202C36;
-  border: 1px solid #202C36;
-}
-
+/* dropdown */
 .filter-menu {
   padding: 15px 20px;
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
-  width: 120px; /* Ge dropdown-meny en fast bredd */
-  background-color: #FFFFFF; /* Standard bakgrundsfärg */
-  border: 1px solid #202C36; /* Standard kantfärg */
+  width: 150px;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 25px 25px;
+  text-align: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
 }
 
 .filter-menu.dark-mode {
   background-color: #2B3844;
   color: #F2F2F2;
   border: 1px solid #F2F2F2;
-}
-
-.filter-menu.light-mode {
-  background-color: #FFFFFF;
-  color: #202C36;
-  border: 1px solid #202C36;
 }
 
 /* Stil för country-card */
@@ -160,20 +180,7 @@ body.light-mode {
   font-size: 14px;
 }
 
-/* Stil för theme-toggle knapp */
-.theme-toggle {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
-
-/* Responsiv design */
+/* Responsiv design så Mac blir glad */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
