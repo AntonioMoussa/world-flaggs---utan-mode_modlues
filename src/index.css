@@ -23,54 +23,6 @@ body.light-mode {
   padding: 20px;     /* Lägger till padding */
 }
 
-/* Stil för navbar */
-.navbar {
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0; /* Tar bort den tidigare padding och justerar för container */
-  background-color: #FFFFFF;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.navbar.dark-mode {
-  background-color: #2B3844;
-  color: #F2F2F2;
-}
-
-/* Stil för länkar i navbar */
-.navbar a {
-  color: inherit;
-  text-decoration: none;
-  margin: 0px 10px 0px 0px;
-}
-
-/* bild på solen */
-.theme-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-  background-color: transparent;
-  border-radius: 50%;
-}
-
-/* Stil för light/darkmode knapp */
-.theme-toggle {
-  background: none;
-  border: none;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-  margin-right: 20px;
-}
-
 /* Stil för sökfältet */
 .search-filter-container {
   display: flex; 
@@ -82,28 +34,9 @@ body.light-mode {
   z-index: 1010;
 }
 
-.search-bar {
-  padding: 15px 20px;
-  border-radius: 5px;
-  font-size: 14px;
-  outline: none;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
-  background-color: #2B3844;
-  color: #F2F2F2;
-  border: 1px solid #F2F2F2;
-  width: 300px; 
-  margin-right: 20px;
-}
-
  /* Gör placeholder texten ljusare */
 .search-bar::placeholder {
   color: #F2F2F2;
-}
-
-.search-bar.dark-mode {
-  background-color: #2B3844;
-  color: #F2F2F2;
-  border: 1px solid #F2F2F2;
 }
 
 /* dropdown */
@@ -119,12 +52,6 @@ body.light-mode {
   background-size: 25px 25px;
   text-align: center;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
-}
-
-.filter-menu.dark-mode {
-  background-color: #2B3844;
-  color: #F2F2F2;
-  border: 1px solid #F2F2F2;
 }
 
 /* Stil för country-card */
