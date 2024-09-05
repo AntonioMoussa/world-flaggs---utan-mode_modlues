@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import CountryPage from './pages/CountryPage';
-import Navbar from './components/Navbar';
-import './index.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CountryPage from "./pages/CountryPage";
+import Navbar from "./components/Navbar";
+import "./index.css";
 
 function App() {
   return (
     <Router>
-      <div className="container">  {/* Ny container för att hålla allt centrerat */}
+      <div className="container">
         <Navbar />
         <div className="content-wrapper">
           <Routes>
