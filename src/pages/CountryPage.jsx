@@ -1,65 +1,168 @@
 import React, { useEffect, useState } from "react";
-import CountryCard from "../components/CountryCard";
-import Dropdown from "../components/Dropdown";
-import Search from "../components/Search";
-import { Container, Box, Grid } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Grid,
+  Button,
+  Typography,
+  Box,
+  Container,
+  useTheme,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-function HomePage() {
-  const [countries, setCountries] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("");
-  const [regions, setRegions] = useState([]);
+function CountryPage() {
+  const { name } = useParams();
+  const navigate = useNavigate();
+  const [country, setCountry] = useState(null);
+  const [error, setError] = useState(null);
+  const theme = useTheme();
 
   useEffect(() => {
-    fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
+    fetch(`https://restcountries.com/v3.1/alpha/${name}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(
+            `Network response was not ok. Status: ${response.status}`
+          );
+        }
+        return response.json();
+      })
       .then((data) => {
-        const sortedCountries = data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
-        );
-        setCountries(sortedCountries);
-
-        const uniqueRegions = [
-          ...new Set(data.map((country) => country.region)),
-        ];
-        setRegions(uniqueRegions);
+        setCountry(data[0]);
+        setError(null);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        setError("Failed to fetch country data");
       });
-  }, []);
+  }, [name]);
 
-  const filteredCountries = countries.filter(
-    (country) =>
-      country.name.common.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (selectedRegion === "" || country.region === selectedRegion) &&
-      country.flags &&
-      country.flags.png
-  );
+  if (error) return <div>{error}</div>;
+  if (!country) return <div>Loading...</div>;
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "100px" }}
-    >
+    <Container maxWidth="md" sx={{ paddingTop: "100px" }}>
+      <Button
+        className="country-page-button"
+        onClick={() => navigate(-1)}
+        sx={{
+          marginBottom: "20px",
+          alignSelf: "start",
+          backgroundColor: "inherit",
+          textTransform: "none",
+          display: "flex",
+          alignItems: "center",
+          border: "2px solid transparent",
+          padding: 0,
+          color: "inherit",
+          "&:hover": {
+            cursor: "pointer",
+            transform: "scale(1.05)",
+            border: `2px solid ${
+              theme.palette.mode === "dark" ? "#ffffff" : "#000000"
+            }`,
+          },
+        }}
+      >
+        <ArrowBackIcon sx={{ marginRight: "8px", color: "inherit" }} />
+        <Typography variant="body1" sx={{ color: "inherit" }}>
+          Back
+        </Typography>
+      </Button>
+
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          justifyContent: "space-between",
-          mb: 4,
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          minHeight: "20vh",
+          boxSizing: "border-box",
         }}
       >
-        <Search searchTerm={searchTerm} onSearch={setSearchTerm} />
-        <Dropdown regions={regions} onSelectRegion={setSelectedRegion} />
-      </Box>
-
-      <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {filteredCountries.map((country) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={country.cca3}>
-            <CountryCard country={country} />
+        <Grid container spacing={4} sx={{ alignItems: "center" }}>
+          <Grid item xs={12} md={6}>
+            <img
+              src={country.flags.svg}
+              alt={`${country.name.common} flag`}
+              style={{ width: "100%", borderRadius: "10px" }}
+            />
           </Grid>
-        ))}
-      </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography variant="h4" gutterBottom>
+              {country.name.common}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Native Name:</strong>{" "}
+              {Object.values(country.name.nativeName)[0]?.common || "N/A"}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Population:</strong> {country.population.toLocaleString()}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Region:</strong> {country.region}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Sub Region:</strong> {country.subregion || "N/A"}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Capital:</strong> {country.capital[0]}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Top Level Domain:</strong> {country.tld.join(", ")}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Currencies:</strong>{" "}
+              {Object.values(country.currencies)
+                .map((c) => c.name)
+                .join(", ")}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Languages:</strong>{" "}
+              {Object.values(country.languages).join(", ")}
+            </Typography>
+
+            {country.borders && (
+              <Box sx={{ marginTop: "20px" }}>
+                <Typography variant="body1" gutterBottom>
+                  <strong>Border Countries:</strong>
+                </Typography>
+                <Grid container spacing={1}>
+                  {country.borders.map((border) => (
+                    <Grid item key={border}>
+                      <Button
+                        className="country-page-button"
+                        onClick={() => navigate(`/${border.toLowerCase()}`)}
+                        sx={{
+                          textTransform: "none",
+                          border: "2px solid transparent",
+                          padding: "5px 10px",
+                          color: "inherit",
+                          backgroundColor: "inherit",
+                          transition: "transform 0.2s, border-color 0.2s",
+                          "&:hover": {
+                            cursor: "pointer",
+                            transform: "scale(1.05)",
+                            border: `2px solid ${
+                              theme.palette.mode === "dark"
+                                ? "#ffffff"
+                                : "#000000"
+                            }`,
+                          },
+                        }}
+                      >
+                        {border}
+                      </Button>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 }
 
-export default HomePage;
+export default CountryPage;
