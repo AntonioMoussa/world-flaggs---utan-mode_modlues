@@ -4,10 +4,9 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Box,
   Button,
   Container,
-  useMediaQuery,
+  Box,
 } from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
@@ -15,7 +14,6 @@ import { useTheme } from "@mui/material/styles";
 function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up("md")); // Använd media query för att kolla storleken
 
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
@@ -29,49 +27,68 @@ function Navbar() {
       sx={{
         backgroundColor: isDarkMode ? "#2B3844" : "#FFF",
         color: isDarkMode ? "#FFF" : "#000",
-        zIndex: 1100,
+        width: "100vw",
+        left: 0,
+        padding: 0,
       }}
     >
-      <Container maxWidth="md" sx={{ px: 0 }}>
-        <Toolbar sx={{ justifyContent: "space-between", px: 2 }}>
-          <Typography
-            variant="h6"
-            component={Link}
-            to="/"
-            sx={{ color: "inherit", textDecoration: "none" }}
-          >
-            The Flag App
-          </Typography>
-
-          {isLargeScreen && (
-            <Box
+      <Container
+        maxWidth="lg"
+        sx={{ paddingLeft: "20px", paddingRight: "20px" }}
+      >
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <Box sx={{ flex: 1 }}>
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/"
               sx={{
-                flexGrow: 1,
-                textAlign: "center",
+                color: "inherit",
+                textDecoration: "none",
               }}
             >
-              <img
-                src={
-                  isDarkMode
-                    ? "./techover-logo.png"
-                    : "./techover-logo-dark.png"
-                }
-                alt="Logo"
-                style={{ height: 24 }}
-              />
-            </Box>
-          )}
+              The Flag App
+            </Typography>
+          </Box>
 
-          <Button
-            onClick={toggleTheme}
-            startIcon={isDarkMode ? <Brightness7 /> : <Brightness4 />}
+          <Box
             sx={{
-              color: "inherit",
-              textTransform: "none",
+              flex: 1,
+              textAlign: "center",
+              display: { xs: "none", md: "block" },
             }}
           >
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
-          </Button>
+            <img
+              src={
+                isDarkMode ? "./techover-logo.png" : "./techover-logo-dark.png"
+              }
+              alt="Logo"
+              style={{ height: 24 }}
+            />
+          </Box>
+
+          <Box sx={{ flex: 1, textAlign: "right" }}>
+            <Button
+              onClick={toggleTheme}
+              startIcon={isDarkMode ? <Brightness7 /> : <Brightness4 />}
+              sx={{
+                color: "inherit",
+                textTransform: "none",
+                padding: 2,
+                minWidth: "auto",
+              }}
+            >
+              {isDarkMode ? "Light Mode" : "Dark Mode"}
+            </Button>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
@@ -79,3 +96,4 @@ function Navbar() {
 }
 
 export default Navbar;
+

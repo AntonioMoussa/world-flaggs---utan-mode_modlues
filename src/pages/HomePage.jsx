@@ -35,7 +35,10 @@ function HomePage() {
   );
 
   return (
-    <Container maxWidth="md" sx={{ paddingTop: "100px" }}>
+    <Container
+      maxWidth="lg"
+      sx={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "100px" }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -49,14 +52,11 @@ function HomePage() {
       </Box>
 
       <Grid container spacing={4} justifyContent="center" alignItems="center">
-        {filteredCountries.map((country) => {
-          console.log(country);
-          return (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={country.cca3}>
-              <CountryCard country={country} />
-            </Grid>
-          );
-        })}
+        {filteredCountries.map((country) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={country.cca3}>
+            <CountryCard country={country} />
+          </Grid>
+        ))}
       </Grid>
     </Container>
   );
