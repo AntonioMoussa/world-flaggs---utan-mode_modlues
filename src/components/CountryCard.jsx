@@ -28,7 +28,7 @@ function CountryCard({ country }) {
             <strong>Capital:</strong>{" "}
             {country.capital && country.capital.length > 0
               ? country.capital[0]
-              : "N/A"}
+              : ""}
           </p>
         </Link>
       </div>

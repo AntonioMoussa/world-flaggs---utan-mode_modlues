@@ -4,10 +4,11 @@ import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 
 function Dropdown({ regions, onSelectRegion }) {
+  const theme = useTheme();
   const [selectedRegion, setSelectedRegion] = useState("");
-  const isDarkMode = document.body.classList.contains("dark-mode");
 
   const handleChange = (event) => {
     setSelectedRegion(event.target.value);
@@ -17,13 +18,18 @@ function Dropdown({ regions, onSelectRegion }) {
   return (
     <Box
       sx={{
-        width: { xs: "100%", sm: "50%", lg: "25%" },
+        width: { xs: "100%", sm: "30%" },
+        maxWidth: "200px",
         mb: 2,
-        maxWidth: "100%",
+        mt: "-12px",
       }}
     >
-      <FormControl fullWidth>
-        <InputLabel sx={{ color: isDarkMode ? "#FFF" : "inherit" }}>
+      <FormControl fullWidth sx={{ height: "40px" }}>
+        <InputLabel
+          sx={{
+            color: theme.palette.text.primary,
+          }}
+        >
           Region
         </InputLabel>
         <Select
@@ -31,25 +37,21 @@ function Dropdown({ regions, onSelectRegion }) {
           onChange={handleChange}
           label="Region"
           sx={{
-            color: isDarkMode ? "#FFF" : "inherit",
+            color: theme.palette.text.primary,
+            height: "55px", // Behåll höjden
+            padding: "0",
             "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: isDarkMode ? "#FFF" : "inherit",
-            },
-            "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: isDarkMode ? "#FFF" : "inherit",
-            },
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: isDarkMode ? "#FFF" : "inherit",
+              borderColor:
+                theme.palette.mode === "dark" ? "#ffffff" : "#202c36",
             },
             "& .MuiSvgIcon-root": {
-              color: isDarkMode ? "#FFF" : "inherit",
+              color: theme.palette.text.primary,
             },
           }}
         >
           <MenuItem value="">
             <em>All</em>
           </MenuItem>
-
           {regions.map((region) => (
             <MenuItem key={region} value={region}>
               {region}

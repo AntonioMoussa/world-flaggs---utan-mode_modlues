@@ -37,14 +37,20 @@ function HomePage() {
   return (
     <Container
       maxWidth="lg"
-      sx={{ paddingLeft: "20px", paddingRight: "20px", paddingTop: "100px" }}
+      sx={{
+        paddingLeft: "20px",
+        paddingRight: "20px",
+        paddingTop: { xs: "0px", md: "50px" },
+      }}
     >
       <Box
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
-          mb: 4,
+          alignItems: { xs: "flex-start", md: "center" },
+          mb: 2,
+          gap: 2,
         }}
       >
         <Search searchTerm={searchTerm} onSearch={setSearchTerm} />

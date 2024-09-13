@@ -1,14 +1,14 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 
 function Search({ searchTerm, onSearch }) {
-  const isDarkMode = document.body.classList.contains("dark-mode");
-
+  const theme = useTheme();
   return (
     <Box
       className="search-bar"
-      sx={{ width: { xs: "100%", md: "60%" }, mb: 2 }}
+      sx={{ width: { xs: "100%", md: "40%" }, mb: 2 }} 
     >
       <TextField
         variant="outlined"
@@ -17,17 +17,21 @@ function Search({ searchTerm, onSearch }) {
         onChange={(e) => onSearch(e.target.value)}
         fullWidth
         sx={{
-          input: { color: isDarkMode ? "#FFF" : "inherit" }, // Text color
-          label: { color: isDarkMode ? "#FFF" : "inherit" }, // Label color
+          input: { color: theme.palette.text.primary },
+          label: { color: theme.palette.text.primary },
+          borderRadius: "8px",
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: isDarkMode ? "#FFF" : "#000", // Border color based on mode
+              borderColor:
+                theme.palette.mode === "dark" ? "#ffffff" : "#202c36",
             },
             "&:hover fieldset": {
-              borderColor: isDarkMode ? "#FFF" : "#000", // Border color on hover
+              borderColor:
+                theme.palette.mode === "dark" ? "#ffffff" : "#202c36",
             },
             "&.Mui-focused fieldset": {
-              borderColor: isDarkMode ? "#FFF" : "#000", // Border color on focus
+              borderColor:
+                theme.palette.mode === "dark" ? "#ffffff" : "#202c36",
             },
           },
         }}

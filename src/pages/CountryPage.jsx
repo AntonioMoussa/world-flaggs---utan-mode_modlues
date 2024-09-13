@@ -28,8 +28,12 @@ function CountryPage() {
         return response.json();
       })
       .then((data) => {
-        setCountry(data[0]);
-        setError(null);
+        if (data && data.length > 0) {
+          setCountry(data[0]);
+          setError(null);
+        } else {
+          setError("Country data is missing");
+        }
       })
       .catch((error) => {
         console.error("Fetch error:", error);
@@ -40,124 +44,193 @@ function CountryPage() {
   if (error) return <div>{error}</div>;
   if (!country) return <div>Loading...</div>;
 
+  const displayValue = (value) => {
+    return value === "N/A" || !value ? "" : value;
+  };
+
   return (
-    <Container maxWidth="md" sx={{ paddingTop: "100px" }}>
-      <Button
-        className="country-page-button"
-        onClick={() => navigate(-1)}
+    <Container
+      maxWidth="lg"
+      sx={{
+        paddingTop: "20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "70vh",
+        paddingX: "16px",
+        overflow: "hidden",
+      }}
+    >
+      <Box
         sx={{
+          width: "100%",
+          maxWidth: "1200px",
+          alignSelf: "flex-start",
           marginBottom: "20px",
-          alignSelf: "start",
-          backgroundColor: "inherit",
-          textTransform: "none",
-          display: "flex",
-          alignItems: "center",
-          border: "2px solid transparent",
-          padding: 0,
-          color: "inherit",
-          "&:hover": {
-            cursor: "pointer",
-            transform: "scale(1.05)",
-            border: `2px solid ${
-              theme.palette.mode === "dark" ? "#ffffff" : "#000000"
-            }`,
+          position: "relative",
+          "@media (max-width: 600px)": {
+            position: "absolute",
+            top: "10px",
+            left: "10px",
+            zIndex: 10,
           },
         }}
       >
-        <ArrowBackIcon sx={{ marginRight: "8px", color: "inherit" }} />
-        <Typography variant="body1" sx={{ color: "inherit" }}>
-          Back
-        </Typography>
-      </Button>
+        <Button
+          className="country-page-button"
+          onClick={() => navigate(-1)}
+          sx={{
+            marginTop: "16px",
+            marginLeft: "0px",
+            backgroundColor: "inherit",
+            textTransform: "none",
+            display: "flex",
+            alignItems: "center",
+            border: "2px solid transparent",
+            color: "inherit",
+            "&:hover": {
+              cursor: "pointer",
+              transform: "scale(1.05)",
+              border: `2px solid ${
+                theme.palette.mode === "dark" ? "#ffffff" : "#000000"
+              }`,
+            },
+          }}
+        >
+          <ArrowBackIcon sx={{ marginRight: "8px", color: "inherit" }} />
+          <Typography variant="body1" sx={{ color: "inherit" }}>
+            Back
+          </Typography>
+        </Button>
+      </Box>
 
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          minHeight: "20vh",
-          boxSizing: "border-box",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: "100%",
+          maxWidth: "1200px",
+          margin: "40px auto 0",
         }}
       >
         <Grid container spacing={4} sx={{ alignItems: "center" }}>
-          <Grid item xs={12} md={6}>
-            <img
-              src={country.flags.svg}
-              alt={`${country.name.common} flag`}
-              style={{ width: "100%", borderRadius: "10px" }}
-            />
+          <Grid
+            item
+            xs={12}
+            md={6}
+            sx={{
+              textAlign: "center",
+              paddingRight: "40px",
+            }}
+          >
+            {country.flags && country.flags.svg ? (
+              <img
+                src={country.flags.svg}
+                alt={`${country.name.common} flag`}
+                style={{
+                  width: "100%",
+                  maxHeight: "400px",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <Typography variant="body1">No flag available</Typography>
+            )}
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h4" gutterBottom>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              textAlign: "left",
+              paddingLeft: "40px",
+            }}
+          >
+            <Typography variant="h3" gutterBottom>
               {country.name.common}
             </Typography>
+
             <Typography variant="body1">
               <strong>Native Name:</strong>{" "}
-              {Object.values(country.name.nativeName)[0]?.common || "N/A"}
+              {country.name.nativeName
+                ? Object.values(country.name.nativeName)[0]?.common
+                : ""}
             </Typography>
             <Typography variant="body1">
-              <strong>Population:</strong> {country.population.toLocaleString()}
+              <strong>Population:</strong>{" "}
+              {country.population?.toLocaleString() || ""}
             </Typography>
             <Typography variant="body1">
-              <strong>Region:</strong> {country.region}
+              <strong>Region:</strong> {displayValue(country.region)}
             </Typography>
             <Typography variant="body1">
-              <strong>Sub Region:</strong> {country.subregion || "N/A"}
+              <strong>Sub Region:</strong> {displayValue(country.subregion)}
             </Typography>
             <Typography variant="body1">
-              <strong>Capital:</strong> {country.capital[0]}
+              <strong>Capital:</strong> {displayValue(country.capital?.[0])}
             </Typography>
             <Typography variant="body1">
-              <strong>Top Level Domain:</strong> {country.tld.join(", ")}
+              <strong>Top Level Domain:</strong> {country.tld?.join(", ") || ""}
             </Typography>
             <Typography variant="body1">
               <strong>Currencies:</strong>{" "}
-              {Object.values(country.currencies)
-                .map((c) => c.name)
-                .join(", ")}
+              {country.currencies
+                ? Object.values(country.currencies)
+                    .map((c) => c.name)
+                    .join(", ")
+                : ""}
             </Typography>
             <Typography variant="body1">
               <strong>Languages:</strong>{" "}
-              {Object.values(country.languages).join(", ")}
+              {country.languages
+                ? Object.values(country.languages).join(", ")
+                : ""}
             </Typography>
 
-            {country.borders && (
-              <Box sx={{ marginTop: "20px" }}>
-                <Typography variant="body1" gutterBottom>
-                  <strong>Border Countries:</strong>
-                </Typography>
-                <Grid container spacing={1}>
-                  {country.borders.map((border) => (
-                    <Grid item key={border}>
-                      <Button
-                        className="country-page-button"
-                        onClick={() => navigate(`/${border.toLowerCase()}`)}
-                        sx={{
-                          textTransform: "none",
-                          border: "2px solid transparent",
-                          padding: "5px 10px",
-                          color: "inherit",
-                          backgroundColor: "inherit",
-                          transition: "transform 0.2s, border-color 0.2s",
-                          "&:hover": {
-                            cursor: "pointer",
-                            transform: "scale(1.05)",
-                            border: `2px solid ${
-                              theme.palette.mode === "dark"
-                                ? "#ffffff"
-                                : "#000000"
-                            }`,
-                          },
-                        }}
-                      >
-                        {border}
-                      </Button>
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
-            )}
+            <Typography
+              variant="body1"
+              gutterBottom
+              sx={{ marginBottom: "8px", textAlign: "left" }}
+            >
+              <strong>Border Countries:</strong>
+            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "10px",
+              }}
+            >
+              {country.borders &&
+                country.borders.map((border) => (
+                  <Button
+                    key={border}
+                    className="border-country-btn"
+                    onClick={() => navigate(`/${border.toLowerCase()}`)}
+                    sx={{
+                      textTransform: "none",
+                      border: "2px solid transparent",
+                      padding: "1px 5px",
+                      width: "70px",
+                      color: "inherit",
+                      backgroundColor: "inherit",
+                      "&:hover": {
+                        cursor: "pointer",
+                        transform: "scale(1.05)",
+                        border: `2px solid ${
+                          theme.palette.mode === "dark" ? "#ffffff" : "#000000"
+                        }`,
+                      },
+                    }}
+                  >
+                    {border}
+                  </Button>
+                ))}
+            </Box>
           </Grid>
         </Grid>
       </Box>
